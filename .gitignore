@@ -1,0 +1,8 @@
+node_modules/
+*.log
+# Secrets and client data never live here
+.env
+*.pem
+accounts.json
+*.result.*
+*.error.txt

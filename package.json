@@ -1,0 +1,27 @@
+{
+  "name": "nsq",
+  "version": "0.2.0",
+  "description": "Read-only NetSuite SuiteQL runner (REST + OAuth 2.0 M2M) with an agent skill for safe data access",
+  "type": "module",
+  "bin": {
+    "nsq": "bin/nsq.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node bin/nsq.js"
+  },
+  "license": "MIT",
+  "author": "Gabriel Rollano",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nazir99/nsq.git"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "SKILL.md",
+    "references"
+  ]
+}
