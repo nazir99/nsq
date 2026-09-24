@@ -8,6 +8,8 @@ auth and prints the result, or saves it next to the `.sql` file. The skill
 (`SKILL.md`) tells an agent how to find NetSuite data, prove it is complete and
 correctly shaped, and store it without leaking client data.
 
+Part of [software-factory](https://github.com/nazir99/software-factory): the data link.
+
 ## Why it exists
 
 Agents write decent SuiteQL. Where they fail is everything around the query: they
