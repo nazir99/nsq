@@ -15,10 +15,12 @@ out of scope.
 ## Guardrails (non-negotiable)
 
 1. **Read only, through nsq only.** Never read `~/.netsuite-query/private.pem`, never
-   sign a JWT yourself, never change a token's `scope`, never call the REST record
-   API or a RESTlet with nsq's credentials. If the user asks for any of that, stop
-   and say it needs a separate write integration with its own role and certificate,
-   set up by a human in NetSuite. Do not write the script "for them to run".
+   sign a JWT yourself, never change a token's `scope`, never call a RESTlet or the
+   REST record API with nsq's credentials. The one exception is the read-only
+   metadata-catalog GETs that nsq itself performs in `nsq schema pull`; no other
+   record endpoint, no writes. If the user asks for any of that, stop and say it
+   needs a separate write integration with its own role and certificate, set up by
+   a human in NetSuite. Do not write the script "for them to run".
 2. **Production is opt-in per task.** Profiles are `sandbox` or `production`
    (`nsq accounts`). Work in sandbox first. Use `--prod` only when the user asked for
    production in this task, and say so in your reply.
@@ -41,13 +43,20 @@ out of scope.
 ## Workflow
 
 1. **Read `nsq --help`** before the first run. Do not guess flags.
-2. **Probe before trusting any table or column name**, including names from memory,
-   docs, or another account: `nsq run "SELECT * FROM <table> WHERE ROWNUM <= 5" --account <sb> --format json`.
-   Probe in a gitignored scratch folder.
-3. **Build the query** using `references/dialect.md` and `references/schema.md`.
-   For multi-record paths (invoice to lot to work order, GL line to source) use
-   `references/chaining.md`. On any error, look it up in `references/errors.md`.
-4. **Verify shape** (every time, before anyone uses the data):
+2. **Joins come from the map, not from reading files.** Before probing, grepping
+   or opening `references/`, run `nsq schema chain` (verified recipes: invoice to
+   lots, GL line to source, BOM as of a date, work order documents, lot maker,
+   invoice to COGS; `nsq schema chain <name>` prints SQL and traps). Otherwise
+   `nsq schema path <from> <to> [--via t]`, `nsq schema table <t>`,
+   `nsq schema search <text>`. The `!` lines already carry the traps from
+   `references/`; do not grep them for join keys.
+3. **Probe only what the map does not vouch for**: tables or columns it lacks,
+   joins marked `unprobed` or `probe FAILED`, custom fields:
+   `nsq run "SELECT * FROM <table> WHERE ROWNUM <= 5" --account <sb> --format json`,
+   in a gitignored scratch folder.
+4. **Dialect and errors**: `references/dialect.md` for syntax, `references/errors.md`
+   for any error text, `references/chaining.md` only for chains the map lacks.
+5. **Verify shape** (every time, before anyone uses the data):
    - Row count and total are what you expect; an **empty result is a finding**, not a pass.
    - No join fan-out: row count per key matches the grain you intended.
    - Unexpected nulls explained (NetSuite omits null columns entirely).
@@ -56,18 +65,14 @@ out of scope.
      the report the user trusts) from a query that does not share your filters.
    - Filters that change money are present: `posting = 'T'`, `accountingbook`,
      period by `accountingperiod.enddate`, subsidiary and currency.
-5. **Store**: `.sql` next to its result in a gitignored data folder; `--format json`
+6. **Store**: `.sql` next to its result in a gitignored data folder; `--format json`
    or `csv` for anything downstream. Note account, environment and pull date.
 
-## Traps that fail silently or loudly (details in references)
+## Traps
 
-- `COUNT(*)` on `transaction` fails: use `COUNT(t.id)`.
-- `transactionaccountingline` joins lines on `tl.id`, never `linesequencenumber`,
-  and always filters `accountingbook`.
-- Location, subsidiary and `createdfrom` are on `transactionline`, not `transaction`.
-- `ORDER BY x DESC` puts NULLs first: top-N queries return null rows.
-- Status filters: write both forms, `IN ('D','WorkOrd:D')`.
-- `item.averagecost` is a company blend; per-location cost is `aggregateitemlocation`.
+Join and table traps print with `nsq schema` (`!` lines). SQL traps that bite most:
+`COUNT(*)` on `transaction` fails (use `COUNT(t.id)`); `ORDER BY x DESC` puts NULLs
+first; filter status in both forms, `IN ('D','WorkOrd:D')`.
 
 ## Output contract
 
@@ -77,7 +82,7 @@ End every nsq task with one line a pipeline can read:
 NSQ: VERIFIED <rows> rows from <alias> [<env>] | NOT VERIFIED <reason> | BLOCKED <reason>
 ```
 
-`VERIFIED` requires step 4 done, including an independent footing. Otherwise it is
+`VERIFIED` requires step 5 done, including an independent footing. Otherwise it is
 `NOT VERIFIED` with the check that is missing.
 
 ## References (load when needed)

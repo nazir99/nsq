@@ -7,6 +7,7 @@ import { checkSelectOnly, checkSavePath } from '../lib/guard.js';
 import { getAccessToken } from '../lib/auth.js';
 import { runSuiteQL } from '../lib/suiteql.js';
 import { toMarkdown, toCsv, toJson } from '../lib/format.js';
+import { cmdSchema } from '../lib/schema/cli.js';
 
 function parseArgs(argv) {
   const args = { _: [] };
@@ -36,6 +37,7 @@ Usage:
   nsq test                          --account <alias>
   nsq accounts                      # list configured accounts
   nsq accounts add --account <alias> --accountId <id> --clientId <id> --certId <id> [--env production|sandbox]
+  nsq schema path <from> <to> | table <name> | search <text>   # join map; see: nsq schema help
 
 Guardrails:
   --prod           required to run against a production account
@@ -170,6 +172,9 @@ async function main() {
         break;
       case 'test':
         await cmdTest(args);
+        break;
+      case 'schema':
+        await cmdSchema(args);
         break;
       case 'accounts':
         if (args._[0] === 'add') cmdAccountsAdd(args);

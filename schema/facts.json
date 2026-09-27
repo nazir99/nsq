@@ -1,0 +1,1203 @@
+{
+  "about": "Hand-maintained verified layer of the nsq schema graph. Generic NetSuite facts only: every entry was checked with a live read-only SuiteQL probe or comes from nsq's references (schema.md, chaining.md, dialect.md). On conflict these win over the Records Catalog. Edited by hand, then folded into graph.json by `nsq schema build`.",
+  "tables": {
+    "transactionaccountingline": {
+      "label": "Transaction Accounting Line",
+      "columns": [
+        [
+          "transaction",
+          "INTEGER"
+        ],
+        [
+          "transactionline",
+          "INTEGER"
+        ],
+        [
+          "accountingbook",
+          "INTEGER"
+        ],
+        [
+          "account",
+          "INTEGER"
+        ],
+        [
+          "accounttype",
+          "STRING"
+        ],
+        [
+          "debit",
+          "CURRENCY"
+        ],
+        [
+          "credit",
+          "CURRENCY"
+        ],
+        [
+          "amount",
+          "CURRENCY"
+        ],
+        [
+          "netamount",
+          "CURRENCY"
+        ],
+        [
+          "amountlinked",
+          "CURRENCY"
+        ],
+        [
+          "amountpaid",
+          "CURRENCY"
+        ],
+        [
+          "amountunpaid",
+          "CURRENCY"
+        ],
+        [
+          "exchangerate",
+          "FLOAT"
+        ],
+        [
+          "posting",
+          "BOOLEAN"
+        ],
+        [
+          "processedbyrevcommit",
+          "BOOLEAN"
+        ],
+        [
+          "lastmodifieddate",
+          "DATETIME"
+        ]
+      ],
+      "traps": [
+        "One row per posting line per accounting book: always filter accountingbook or multi-book accounts double.",
+        "No item column: the item is on transactionline.item.",
+        "Signed amount: NVL(debit,0) - NVL(credit,0). Filter posting = 'T' here and on transaction.",
+        "Debit and credit are in the posting subsidiary's base currency: never add across subsidiaries with different currencies."
+      ]
+    },
+    "aggregateitemlocation": {
+      "label": "Aggregate Item Location",
+      "columns": [
+        [
+          "item",
+          "INTEGER"
+        ],
+        [
+          "location",
+          "INTEGER"
+        ],
+        [
+          "quantityonhand",
+          "FLOAT"
+        ],
+        [
+          "onhandvaluemli",
+          "CURRENCY"
+        ],
+        [
+          "averagecostmli",
+          "CURRENCY"
+        ],
+        [
+          "cost",
+          "CURRENCY"
+        ],
+        [
+          "lastpurchasepricemli",
+          "CURRENCY"
+        ],
+        [
+          "quantityavailable",
+          "FLOAT"
+        ],
+        [
+          "quantitycommitted",
+          "FLOAT"
+        ],
+        [
+          "quantityonorder",
+          "FLOAT"
+        ],
+        [
+          "quantitybackordered",
+          "FLOAT"
+        ],
+        [
+          "quantityintransit",
+          "FLOAT"
+        ],
+        [
+          "lastquantityavailablechange",
+          "DATE"
+        ],
+        [
+          "autoproductionleadtime",
+          "INTEGER"
+        ],
+        [
+          "costinglotsize",
+          "FLOAT"
+        ],
+        [
+          "supplytype",
+          "STRING"
+        ],
+        [
+          "lastmodifieddate",
+          "DATETIME"
+        ]
+      ],
+      "traps": [
+        "One row per item and location: always filter item IN (...) or it fans out across every location.",
+        "Per-location average cost lives here (averagecostmli); item.averagecost is a company-wide blend.",
+        "Standard-cost items: averagecostmli shows the standard, not an average.",
+        "lastpurchasepricemli has no link back to a transaction."
+      ]
+    },
+    "inventoryassignment": {
+      "label": "Inventory Assignment (lot, serial, bin detail)",
+      "columns": [
+        [
+          "id",
+          "INTEGER"
+        ],
+        [
+          "transaction",
+          "INTEGER"
+        ],
+        [
+          "transactionline",
+          "INTEGER"
+        ],
+        [
+          "inventorynumber",
+          "INTEGER"
+        ],
+        [
+          "quantity",
+          "FLOAT"
+        ]
+      ],
+      "traps": [
+        "quantity is signed: negative when the line takes units out of a lot, positive when it puts them in.",
+        "A lot can have several making documents: a join to the maker repeats the consuming row once per maker."
+      ]
+    },
+    "nexttransactionlink": {
+      "label": "Next Transaction Link (header level)",
+      "columns": [
+        [
+          "previousdoc",
+          "INTEGER"
+        ],
+        [
+          "nextdoc",
+          "INTEGER"
+        ],
+        [
+          "linktype",
+          "STRING"
+        ]
+      ],
+      "traps": [
+        "Header level with exactly three columns: no amount. Never present the applying document's total as the amount applied.",
+        "previoustransactionlink returns the same rows."
+      ]
+    },
+    "previoustransactionlink": {
+      "label": "Previous Transaction Link (same rows as nexttransactionlink)",
+      "columns": [
+        [
+          "previousdoc",
+          "INTEGER"
+        ],
+        [
+          "nextdoc",
+          "INTEGER"
+        ],
+        [
+          "linktype",
+          "STRING"
+        ]
+      ],
+      "traps": [
+        "Same rows as nexttransactionlink."
+      ]
+    },
+    "nexttransactionlinelink": {
+      "label": "Next Transaction Line Link (line level)",
+      "columns": [
+        [
+          "previousdoc",
+          "INTEGER"
+        ],
+        [
+          "previousline",
+          "INTEGER"
+        ],
+        [
+          "previoustype",
+          "STRING"
+        ],
+        [
+          "previousdate",
+          "DATE"
+        ],
+        [
+          "nextdoc",
+          "INTEGER"
+        ],
+        [
+          "nextline",
+          "INTEGER"
+        ],
+        [
+          "nexttype",
+          "STRING"
+        ],
+        [
+          "nextdate",
+          "DATE"
+        ],
+        [
+          "linktype",
+          "STRING"
+        ],
+        [
+          "discount",
+          "BOOLEAN"
+        ],
+        [
+          "lastmodifieddate",
+          "DATETIME"
+        ]
+      ],
+      "traps": [
+        "previousline and nextline are transactionline.id values, not linesequencenumber."
+      ]
+    },
+    "bomrevisioncomponentmember": {
+      "label": "BOM Revision Component Member",
+      "columns": [
+        [
+          "id",
+          "INTEGER"
+        ],
+        [
+          "bomrevision",
+          "INTEGER"
+        ],
+        [
+          "item",
+          "INTEGER"
+        ],
+        [
+          "quantity",
+          "FLOAT"
+        ],
+        [
+          "bomquantity",
+          "FLOAT"
+        ],
+        [
+          "units",
+          "INTEGER"
+        ],
+        [
+          "componentyield",
+          "PERCENT"
+        ],
+        [
+          "description",
+          "STRING"
+        ],
+        [
+          "displayname",
+          "STRING"
+        ],
+        [
+          "isoutsourcingcharge",
+          "BOOLEAN"
+        ],
+        [
+          "itemsource",
+          "STRING"
+        ],
+        [
+          "lineid",
+          "INTEGER"
+        ]
+      ],
+      "traps": [
+        "Component quantity is in the line's unit (units), not the item's base unit: convert with unitstypeuom.conversionrate.",
+        "bomrevisioncomponent also exists; systemnote refers to that one."
+      ]
+    },
+    "itemassemblyitembom": {
+      "label": "Assembly Item BOM link",
+      "columns": [
+        [
+          "assembly",
+          "INTEGER"
+        ],
+        [
+          "billofmaterials",
+          "INTEGER"
+        ],
+        [
+          "masterdefault",
+          "BOOLEAN"
+        ],
+        [
+          "defaultforlocation",
+          "STRING"
+        ],
+        [
+          "inactive",
+          "BOOLEAN"
+        ]
+      ],
+      "traps": [
+        "An assembly can have several BOMs: pick one deterministically (location default, then masterdefault, then lowest id)."
+      ]
+    },
+    "manufacturingroutingroutingstep": {
+      "label": "Manufacturing Routing Step",
+      "columns": [
+        [
+          "manufacturingrouting",
+          "INTEGER"
+        ],
+        [
+          "operationsequence",
+          "INTEGER"
+        ],
+        [
+          "operationname",
+          "STRING"
+        ],
+        [
+          "setuptime",
+          "FLOAT"
+        ],
+        [
+          "runrate",
+          "FLOAT"
+        ],
+        [
+          "manufacturingworkcenter",
+          "INTEGER"
+        ],
+        [
+          "manufacturingcosttemplate",
+          "INTEGER"
+        ]
+      ],
+      "traps": [
+        "Work center and cost template are on the step, not the routing: one routing can span several work centers.",
+        "runrate units are unresolved: confirm against the UI before using it in math."
+      ]
+    }
+  },
+  "tableTraps": {
+    "transaction": [
+      "COUNT(*) fails: use COUNT(t.id).",
+      "createdfrom is not a transaction column (UNEXPECTED_ERROR): use transactionline.createdfrom.",
+      "Location and subsidiary for posting lines are on transactionline; the header location can be empty.",
+      "Status: SuiteQL returns the short code ('D'); filter both forms, IN ('D','WorkOrd:D').",
+      "recordtype is the lower-case record name (invoice, itemfulfillment, workorderissue); type is the short code (CustInvc, ItemShip, WOIssue).",
+      "Periods: join accountingperiod on postingperiod and filter accountingperiod.enddate, not trandate."
+    ],
+    "transactionline": [
+      "mainline = 'T' is the header line; on a work order completion the finished-good receipt is the mainline row.",
+      "mainline = 'F' still leaves tax lines: add taxline = 'F'.",
+      "quantity and rate are in the item's base unit whatever units says; BUILTIN.DF(units) is a label only.",
+      "Sales order and invoice line quantity and amount are negative; credit memo lines positive.",
+      "Landed-cost lines have NULL quantity and landedcostcategory set.",
+      "COGS posts on the item fulfillment (iscogs = 'T' lines), not the invoice."
+    ],
+    "item": [
+      "averagecost is a company-wide blend: per-location cost is aggregateitemlocation.",
+      "matrixtype = 'PARENT' marks a grouping item with no BOM: exclude it when listing assemblies."
+    ],
+    "bomrevision": [
+      "An as-of date must fall inside effectivestartdate..effectiveenddate or you get zero rows; null bounds are open-ended.",
+      "Overlapping revisions are possible: keep the latest effectivestartdate, then the highest id."
+    ],
+    "unitstypeuom": [
+      "The unit key is internalid; unit ids are per units type. conversionrate converts to the base unit."
+    ],
+    "accountingperiod": [
+      "Filter on enddate; isadjust = 'F' excludes adjustment periods. Balance-sheet balances take no start date."
+    ],
+    "account": [
+      "Use accountsearchdisplayname for the name and accttype (e.g. COGS) for the type."
+    ],
+    "systemnote": [
+      "Audit trail: needs a narrow date window; no GROUP BY; constants in SELECT fail."
+    ],
+    "location": [
+      "No address columns: join locationmainaddress on nkey = location.mainaddress."
+    ],
+    "manufacturingcosttemplatecostdetail": [
+      "runrate and fixedrate are different units: total them separately, never sum them together."
+    ]
+  },
+  "edges": [
+    {
+      "from": "transactionline",
+      "to": "transaction",
+      "keys": [
+        [
+          "transaction",
+          "id"
+        ]
+      ],
+      "replaces": [
+        "transactionlines"
+      ],
+      "label": "Transaction"
+    },
+    {
+      "from": "transactionline",
+      "to": "transaction",
+      "keys": [
+        [
+          "createdfrom",
+          "id"
+        ]
+      ],
+      "label": "Created From (source document)",
+      "traps": [
+        "createdfrom is on the line, never on transaction.",
+        "Keyed share varies: inventory documents are usually fully keyed, journals never, revaluations partly. Measure it before relying on it.",
+        "Fallback when blank: nexttransactionlink (header level)."
+      ]
+    },
+    {
+      "from": "transactionaccountingline",
+      "to": "transactionline",
+      "keys": [
+        [
+          "transaction",
+          "transaction"
+        ],
+        [
+          "transactionline",
+          "id"
+        ]
+      ],
+      "label": "Transaction Line",
+      "traps": [
+        "Join on both keys and on transactionline.id, never linesequencenumber: they usually agree, so the wrong key passes casual tests and lands on another item where they differ.",
+        "Always filter accountingbook."
+      ]
+    },
+    {
+      "from": "transactionaccountingline",
+      "to": "transaction",
+      "keys": [
+        [
+          "transaction",
+          "id"
+        ]
+      ],
+      "label": "Transaction"
+    },
+    {
+      "from": "transactionaccountingline",
+      "to": "account",
+      "keys": [
+        [
+          "account",
+          "id"
+        ]
+      ],
+      "label": "Account"
+    },
+    {
+      "from": "transactionaccountingline",
+      "to": "accountingbook",
+      "keys": [
+        [
+          "accountingbook",
+          "id"
+        ]
+      ],
+      "label": "Accounting Book"
+    },
+    {
+      "from": "transaction",
+      "to": "accountingperiod",
+      "keys": [
+        [
+          "postingperiod",
+          "id"
+        ]
+      ],
+      "label": "Posting Period",
+      "traps": [
+        "Filter accountingperiod.enddate, not transaction.trandate."
+      ]
+    },
+    {
+      "from": "transaction",
+      "to": "bomrevision",
+      "keys": [
+        [
+          "billofmaterialsrevision",
+          "id"
+        ]
+      ],
+      "label": "Work order's actual BOM revision"
+    },
+    {
+      "from": "transaction",
+      "to": "location",
+      "keys": [
+        [
+          "transferlocation",
+          "id"
+        ]
+      ],
+      "label": "Transfer order destination location",
+      "traps": [
+        "Destination location is only on the transfer order header; the source location is on the posting lines."
+      ]
+    },
+    {
+      "from": "transactionline",
+      "to": "item",
+      "keys": [
+        [
+          "item",
+          "id"
+        ]
+      ],
+      "label": "Item"
+    },
+    {
+      "from": "transactionline",
+      "to": "location",
+      "keys": [
+        [
+          "location",
+          "id"
+        ]
+      ],
+      "label": "Location"
+    },
+    {
+      "from": "transactionline",
+      "to": "subsidiary",
+      "keys": [
+        [
+          "subsidiary",
+          "id"
+        ]
+      ],
+      "label": "Subsidiary"
+    },
+    {
+      "from": "transactionline",
+      "to": "unitstypeuom",
+      "keys": [
+        [
+          "units",
+          "internalid"
+        ]
+      ],
+      "label": "Unit"
+    },
+    {
+      "from": "inventoryassignment",
+      "to": "transactionline",
+      "keys": [
+        [
+          "transaction",
+          "transaction"
+        ],
+        [
+          "transactionline",
+          "id"
+        ]
+      ],
+      "label": "Transaction Line",
+      "traps": [
+        "Join on both keys; transactionline is transactionline.id, not linesequencenumber."
+      ]
+    },
+    {
+      "from": "inventoryassignment",
+      "to": "transaction",
+      "keys": [
+        [
+          "transaction",
+          "id"
+        ]
+      ],
+      "label": "Transaction",
+      "traps": [
+        "Header level: lot rows belong to specific lines. Join transactionline on both keys to keep the line grain."
+      ]
+    },
+    {
+      "from": "inventoryassignment",
+      "to": "inventorynumber",
+      "keys": [
+        [
+          "inventorynumber",
+          "id"
+        ]
+      ],
+      "label": "Lot or serial number",
+      "traps": [
+        "inventorynumber.inventorynumber is the lot name."
+      ]
+    },
+    {
+      "from": "inventorynumber",
+      "to": "item",
+      "keys": [
+        [
+          "item",
+          "id"
+        ]
+      ],
+      "label": "Item"
+    },
+    {
+      "from": "aggregateitemlocation",
+      "to": "item",
+      "keys": [
+        [
+          "item",
+          "id"
+        ]
+      ],
+      "label": "Item"
+    },
+    {
+      "from": "aggregateitemlocation",
+      "to": "location",
+      "keys": [
+        [
+          "location",
+          "id"
+        ]
+      ],
+      "label": "Location"
+    },
+    {
+      "from": "nexttransactionlink",
+      "to": "transaction",
+      "keys": [
+        [
+          "previousdoc",
+          "id"
+        ]
+      ],
+      "label": "Previous document"
+    },
+    {
+      "from": "nexttransactionlink",
+      "to": "transaction",
+      "keys": [
+        [
+          "nextdoc",
+          "id"
+        ]
+      ],
+      "label": "Next document"
+    },
+    {
+      "from": "previoustransactionlink",
+      "to": "transaction",
+      "keys": [
+        [
+          "previousdoc",
+          "id"
+        ]
+      ],
+      "label": "Previous document"
+    },
+    {
+      "from": "previoustransactionlink",
+      "to": "transaction",
+      "keys": [
+        [
+          "nextdoc",
+          "id"
+        ]
+      ],
+      "label": "Next document"
+    },
+    {
+      "from": "nexttransactionlinelink",
+      "to": "transactionline",
+      "keys": [
+        [
+          "previousdoc",
+          "transaction"
+        ],
+        [
+          "previousline",
+          "id"
+        ]
+      ],
+      "label": "Previous line"
+    },
+    {
+      "from": "nexttransactionlinelink",
+      "to": "transactionline",
+      "keys": [
+        [
+          "nextdoc",
+          "transaction"
+        ],
+        [
+          "nextline",
+          "id"
+        ]
+      ],
+      "label": "Next line"
+    },
+    {
+      "from": "itemassemblyitembom",
+      "to": "item",
+      "keys": [
+        [
+          "assembly",
+          "id"
+        ]
+      ],
+      "label": "Assembly",
+      "traps": [
+        "assembly is the built item; the components are on bomrevisioncomponentmember.item."
+      ]
+    },
+    {
+      "from": "itemassemblyitembom",
+      "to": "bom",
+      "keys": [
+        [
+          "billofmaterials",
+          "id"
+        ]
+      ],
+      "label": "Bill of Materials"
+    },
+    {
+      "from": "bomrevision",
+      "to": "bom",
+      "keys": [
+        [
+          "billofmaterials",
+          "id"
+        ]
+      ],
+      "label": "Bill of Materials"
+    },
+    {
+      "from": "bomrevisioncomponentmember",
+      "to": "bomrevision",
+      "keys": [
+        [
+          "bomrevision",
+          "id"
+        ]
+      ],
+      "label": "BOM Revision",
+      "traps": [
+        "Pick the revision effective on the as-of date first, or every revision's components come back."
+      ]
+    },
+    {
+      "from": "bomrevisioncomponentmember",
+      "to": "item",
+      "keys": [
+        [
+          "item",
+          "id"
+        ]
+      ],
+      "label": "Component item",
+      "traps": [
+        "This is the component item (where-used). For an assembly's components go item -> itemassemblyitembom -> bom -> bomrevision -> bomrevisioncomponentmember."
+      ]
+    },
+    {
+      "from": "bomrevisioncomponentmember",
+      "to": "unitstypeuom",
+      "keys": [
+        [
+          "units",
+          "internalid"
+        ]
+      ],
+      "label": "Component unit"
+    },
+    {
+      "from": "manufacturingrouting",
+      "to": "bom",
+      "keys": [
+        [
+          "billofmaterials",
+          "id"
+        ]
+      ],
+      "label": "Bill of Materials"
+    },
+    {
+      "from": "manufacturingroutingroutingstep",
+      "to": "manufacturingrouting",
+      "keys": [
+        [
+          "manufacturingrouting",
+          "id"
+        ]
+      ],
+      "label": "Routing"
+    },
+    {
+      "from": "manufacturingroutingroutingstep",
+      "to": "entitygroup",
+      "keys": [
+        [
+          "manufacturingworkcenter",
+          "id"
+        ]
+      ],
+      "label": "Work center"
+    },
+    {
+      "from": "manufacturingroutingroutingstep",
+      "to": "manufacturingcosttemplate",
+      "keys": [
+        [
+          "manufacturingcosttemplate",
+          "id"
+        ]
+      ],
+      "label": "Cost template"
+    },
+    {
+      "from": "manufacturingcosttemplatecostdetail",
+      "to": "manufacturingcosttemplate",
+      "keys": [
+        [
+          "manufacturingcosttemplate",
+          "id"
+        ]
+      ],
+      "label": "Cost template"
+    },
+    {
+      "from": "manufacturingoperationtask",
+      "to": "transaction",
+      "keys": [
+        [
+          "workorder",
+          "id"
+        ]
+      ],
+      "label": "Work order"
+    },
+    {
+      "from": "location",
+      "to": "locationmainaddress",
+      "keys": [
+        [
+          "mainaddress",
+          "nkey"
+        ]
+      ],
+      "label": "Main address"
+    },
+    {
+      "from": "accountsubsidiarymap",
+      "to": "account",
+      "keys": [
+        [
+          "account",
+          "id"
+        ]
+      ],
+      "label": "Account"
+    },
+    {
+      "from": "accountsubsidiarymap",
+      "to": "subsidiary",
+      "keys": [
+        [
+          "subsidiary",
+          "id"
+        ]
+      ],
+      "label": "Subsidiary"
+    },
+    {
+      "from": "scriptnote",
+      "to": "script",
+      "keys": [
+        [
+          "scripttype",
+          "id"
+        ]
+      ],
+      "label": "Script"
+    }
+  ],
+  "typeCodes": {
+    "advintercompanyjournalentry": "Journal",
+    "assemblybuild": "Build",
+    "assemblyunbuild": "Unbuild",
+    "check": "Check",
+    "creditcardcharge": "CardChrg",
+    "creditcardrefund": "CardRfnd",
+    "creditmemo": "CustCred",
+    "customerdeposit": "CustDep",
+    "customerpayment": "CustPymt",
+    "customerrefund": "CustRfnd",
+    "deposit": "Deposit",
+    "depositapplication": "DepAppl",
+    "estimate": "Estimate",
+    "intercompanytransferorder": "TrnfrOrd",
+    "inventoryadjustment": "InvAdjst",
+    "inventorycostrevaluation": "InvReval",
+    "inventorycount": "InvCount",
+    "inventorytransfer": "InvTrnfr",
+    "inventoryworksheet": "InvWksht",
+    "invoice": "CustInvc",
+    "itemfulfillment": "ItemShip",
+    "itemreceipt": "ItemRcpt",
+    "journalentry": "Journal",
+    "opportunity": "Opprtnty",
+    "purchaseorder": "PurchOrd",
+    "returnauthorization": "RtnAuth",
+    "salesorder": "SalesOrd",
+    "transfer": "Transfer",
+    "transferorder": "TrnfrOrd",
+    "vendorbill": "VendBill",
+    "vendorcredit": "VendCred",
+    "vendorpayment": "VendPymt",
+    "vendorprepayment": "VPrep",
+    "vendorprepaymentapplication": "VPrepApp",
+    "vendorreturnauthorization": "VendAuth",
+    "workorder": "WorkOrd",
+    "workorderclose": "WOClose",
+    "workordercompletion": "WOCompl",
+    "workorderissue": "WOIssue"
+  },
+  "suiteapps": {
+    "ncfar": "Fixed Assets Management",
+    "fam": "Fixed Assets Management",
+    "2663": "Electronic Bank Payments"
+  },
+  "features": [
+    [
+      "^(revenue|revrec|advancedrevrec)",
+      "Advanced Revenue Management"
+    ],
+    [
+      "^(subscription|chargerule|charge$|billingaccount|usage|pricebook|priceplan)",
+      "SuiteBilling"
+    ],
+    [
+      "^(bom|manufacturing|itemassemblyitembom|assemblybuild|assemblyunbuild|workorder)",
+      "Manufacturing"
+    ],
+    [
+      "intercompany",
+      "Intercompany"
+    ],
+    [
+      "consolidat",
+      "Consolidation"
+    ],
+    [
+      "^(job|project|customerproject|timebill|resourceallocation)",
+      "Projects"
+    ]
+  ],
+  "presenceTables": {
+    "Core": [
+      "transaction",
+      "transactionline",
+      "transactionaccountingline",
+      "accountingbook",
+      "accountingperiod",
+      "aggregateitemlocation",
+      "inventoryassignment",
+      "inventorynumber",
+      "nexttransactionlink",
+      "nexttransactionlinelink",
+      "location",
+      "subsidiary",
+      "currency"
+    ],
+    "Advanced Revenue Management": [
+      "revenuearrangement",
+      "revenueelement",
+      "revenueplan"
+    ],
+    "SuiteBilling": [
+      "subscription",
+      "subscriptionline",
+      "chargerule",
+      "billingaccount",
+      "usage",
+      "priceplan",
+      "pricebook"
+    ],
+    "Manufacturing": [
+      "bom",
+      "bomrevision",
+      "bomrevisioncomponentmember",
+      "itemassemblyitembom",
+      "manufacturingrouting",
+      "manufacturingroutingroutingstep",
+      "manufacturingoperationtask"
+    ],
+    "Projects": [
+      "job",
+      "projecttask",
+      "timebill"
+    ],
+    "Intercompany": [
+      "intercompanytransferorder",
+      "advintercompanyjournalentry"
+    ],
+    "Consolidation": [
+      "consolidatedexchangerate"
+    ],
+    "Fixed Assets Management (SuiteApp)": [
+      "customrecord_ncfar_asset",
+      "customrecord_ncfar_deprhistory"
+    ],
+    "Electronic Bank Payments (SuiteApp)": [
+      "customrecord_2663_batch"
+    ]
+  },
+  "chains": [
+    {
+      "name": "invoice-to-shipped-lots",
+      "from": [
+        "invoice",
+        "transaction",
+        "transactionline"
+      ],
+      "to": [
+        "inventorynumber",
+        "inventoryassignment",
+        "itemfulfillment"
+      ],
+      "about": "Lots shipped for an invoice: invoice lines -> sales order (createdfrom) -> fulfillment lines -> lot detail.",
+      "sql": "FROM transaction inv\nJOIN transactionline il ON il.transaction = inv.id AND il.mainline = 'F' AND il.item IS NOT NULL\nJOIN transactionline fl ON fl.createdfrom = il.createdfrom AND fl.item = il.item\nJOIN transaction f ON f.id = fl.transaction AND f.type = 'ItemShip'\nJOIN inventoryassignment ia ON ia.transaction = fl.transaction AND ia.transactionline = fl.id AND ia.quantity < 0\nJOIN inventorynumber inum ON inum.id = ia.inventorynumber\nWHERE inv.type = 'CustInvc' AND inv.id = :invoice",
+      "traps": [
+        "Invoices carry no lot detail: lots are on the fulfillment lines of the same sales order.",
+        "Fan-out: a sales order with several fulfillments or invoices attaches every fulfillment's lots to each invoice line of that item. Match by quantity or date if you need one-to-one.",
+        "Shipped quantity is -ia.quantity; inum.inventorynumber is the lot name."
+      ],
+      "probe": "SELECT inv.id, il.item, inum.inventorynumber, ia.quantity FROM transaction inv JOIN transactionline il ON il.transaction = inv.id AND il.mainline = 'F' AND il.item IS NOT NULL JOIN transactionline fl ON fl.createdfrom = il.createdfrom AND fl.item = il.item JOIN transaction f ON f.id = fl.transaction AND f.type = 'ItemShip' JOIN inventoryassignment ia ON ia.transaction = fl.transaction AND ia.transactionline = fl.id AND ia.quantity < 0 JOIN inventorynumber inum ON inum.id = ia.inventorynumber WHERE inv.type = 'CustInvc' AND ROWNUM <= 5"
+    },
+    {
+      "name": "gl-line-to-source",
+      "from": [
+        "transactionaccountingline"
+      ],
+      "to": [
+        "transaction",
+        "transactionline"
+      ],
+      "about": "GL line to its line, item, location and source document (createdfrom), primary book, posted.",
+      "sql": "FROM transactionaccountingline tal\nJOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T'\nJOIN transaction t ON t.id = tal.transaction\nJOIN transactionline tl ON tl.transaction = tal.transaction AND tl.id = tal.transactionline\nLEFT JOIN transaction src ON src.id = tl.createdfrom\nWHERE tal.posting = 'T' AND t.posting = 'T'",
+      "traps": [
+        "tl.id = tal.transactionline, never linesequencenumber.",
+        "Keep lines with no createdfrom (journals) as their own bucket; LEFT JOIN, never drop them.",
+        "Signed amount: NVL(tal.debit,0) - NVL(tal.credit,0)."
+      ],
+      "probe": "SELECT tal.account, NVL(tal.debit,0) - NVL(tal.credit,0) AS amount, tl.item, tl.location, src.id, src.type, src.tranid FROM transactionaccountingline tal JOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T' JOIN transaction t ON t.id = tal.transaction JOIN transactionline tl ON tl.transaction = tal.transaction AND tl.id = tal.transactionline LEFT JOIN transaction src ON src.id = tl.createdfrom WHERE tal.posting = 'T' AND t.posting = 'T' AND ROWNUM <= 5"
+    },
+    {
+      "name": "assembly-bom-as-of",
+      "from": [
+        "item",
+        "assemblyitem",
+        "lotnumberedassemblyitem",
+        "itemassemblyitembom"
+      ],
+      "to": [
+        "bomrevisioncomponentmember",
+        "bomrevision"
+      ],
+      "about": "Single-level components of an assembly effective on a date: itemassemblyitembom -> bomrevision (as-of window) -> bomrevisioncomponentmember.",
+      "sql": "FROM (SELECT br.id, ROW_NUMBER() OVER (ORDER BY br.effectivestartdate DESC, br.id DESC) rn\n      FROM itemassemblyitembom iab\n      JOIN bomrevision br ON br.billofmaterials = iab.billofmaterials\n      WHERE iab.assembly = :item AND iab.masterdefault = 'T'\n        AND (br.effectivestartdate IS NULL OR br.effectivestartdate <= :asof)\n        AND (br.effectiveenddate IS NULL OR br.effectiveenddate >= :asof)) r\nJOIN bomrevisioncomponentmember bcm ON bcm.bomrevision = r.id\nWHERE r.rn = 1",
+      "traps": [
+        "An as-of date outside every revision window returns zero rows.",
+        "masterdefault picks the master BOM; for a location's BOM use defaultforlocation first.",
+        "bcm.quantity is in bcm.units, not the component's base unit.",
+        "A work order's actual recipe is transaction.billofmaterialsrevision, not the as-of revision."
+      ],
+      "probe": "SELECT bcm.item, bcm.quantity, bcm.units, r.id FROM (SELECT br.id, ROW_NUMBER() OVER (ORDER BY br.effectivestartdate DESC, br.id DESC) rn FROM itemassemblyitembom iab JOIN bomrevision br ON br.billofmaterials = iab.billofmaterials WHERE iab.assembly = (SELECT MAX(assembly) FROM itemassemblyitembom WHERE masterdefault = 'T') AND iab.masterdefault = 'T' AND (br.effectivestartdate IS NULL OR br.effectivestartdate <= SYSDATE) AND (br.effectiveenddate IS NULL OR br.effectiveenddate >= SYSDATE)) r JOIN bomrevisioncomponentmember bcm ON bcm.bomrevision = r.id WHERE r.rn = 1 AND ROWNUM <= 5"
+    },
+    {
+      "name": "work-order-documents",
+      "from": [
+        "workorder",
+        "transaction"
+      ],
+      "to": [
+        "workorderissue",
+        "workordercompletion",
+        "workorderclose",
+        "transactionline"
+      ],
+      "about": "Issues, completions, closes and unbuilds of a work order through transactionline.createdfrom.",
+      "sql": "FROM transaction wo\nJOIN transactionline x ON x.createdfrom = wo.id\nJOIN transaction d ON d.id = x.transaction\n AND d.recordtype IN ('workorderissue','workordercompletion','workorderclose','assemblyunbuild')\nWHERE wo.type = 'WorkOrd' AND wo.id = :workorder",
+      "traps": [
+        "Without the recordtype filter this also pulls whole revaluations keyed to the work order.",
+        "Completion lines with transactionlinetype = 'ROUTINGITEM' carry labor and overhead.",
+        "One row per line: aggregate or DISTINCT d.id for one row per document."
+      ],
+      "probe": "SELECT wo.id, d.id, d.recordtype, x.id FROM transaction wo JOIN transactionline x ON x.createdfrom = wo.id JOIN transaction d ON d.id = x.transaction AND d.recordtype IN ('workorderissue','workordercompletion','workorderclose','assemblyunbuild') WHERE wo.type = 'WorkOrd' AND ROWNUM <= 5"
+    },
+    {
+      "name": "lot-maker",
+      "from": [
+        "inventorynumber",
+        "inventoryassignment"
+      ],
+      "to": [
+        "workorder",
+        "workordercompletion",
+        "transaction"
+      ],
+      "about": "Which completion (and work order) made a lot: positive inventoryassignment on the completion's mainline.",
+      "sql": "FROM inventoryassignment ia\nJOIN transactionline ml ON ml.transaction = ia.transaction AND ml.id = ia.transactionline AND ml.mainline = 'T'\nJOIN transaction c ON c.id = ml.transaction AND c.recordtype = 'workordercompletion'\nWHERE ia.quantity > 0 AND ia.inventorynumber = :lot\n-- ml.createdfrom is the work order",
+      "traps": [
+        "Keep the maker restrictions inside one subquery when joining to consuming rows; chained LEFT JOINs keep receipts and adjustments and duplicate rows.",
+        "A lot can have several makers, later receipts, or an opening adjustment as its origin."
+      ],
+      "probe": "SELECT ia.inventorynumber, c.id, ml.createdfrom FROM inventoryassignment ia JOIN transactionline ml ON ml.transaction = ia.transaction AND ml.id = ia.transactionline AND ml.mainline = 'T' JOIN transaction c ON c.id = ml.transaction AND c.recordtype = 'workordercompletion' WHERE ia.quantity > 0 AND ROWNUM <= 5"
+    },
+    {
+      "name": "invoice-to-cogs",
+      "from": [
+        "invoice"
+      ],
+      "to": [
+        "transactionaccountingline",
+        "account"
+      ],
+      "about": "COGS for what an invoice sold: posts on the fulfillment's iscogs lines, not on the invoice.",
+      "sql": "FROM transaction inv\nJOIN transactionline il ON il.transaction = inv.id AND il.mainline = 'F' AND il.item IS NOT NULL\nJOIN transactionline fl ON fl.createdfrom = il.createdfrom AND fl.item = il.item AND fl.iscogs = 'T'\nJOIN transaction f ON f.id = fl.transaction AND f.type = 'ItemShip'\nJOIN transactionaccountingline tal ON tal.transaction = fl.transaction AND tal.transactionline = fl.id\nJOIN account a ON a.id = tal.account AND a.accttype = 'COGS'\nJOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T'\nWHERE inv.type = 'CustInvc' AND inv.id = :invoice",
+      "traps": [
+        "Several fulfillments per sales order: map invoice line to fulfillment line, do not attach all of them to every invoice line.",
+        "Per-unit COGS times invoiced quantity when invoices and fulfillments do not match one-to-one."
+      ],
+      "probe": "SELECT inv.id, fl.transaction, tal.account, NVL(tal.debit,0) - NVL(tal.credit,0) AS cogs FROM transaction inv JOIN transactionline il ON il.transaction = inv.id AND il.mainline = 'F' AND il.item IS NOT NULL JOIN transactionline fl ON fl.createdfrom = il.createdfrom AND fl.item = il.item AND fl.iscogs = 'T' JOIN transaction f ON f.id = fl.transaction AND f.type = 'ItemShip' JOIN transactionaccountingline tal ON tal.transaction = fl.transaction AND tal.transactionline = fl.id JOIN account a ON a.id = tal.account AND a.accttype = 'COGS' JOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T' WHERE inv.type = 'CustInvc' AND ROWNUM <= 5"
+    }
+  ]
+}

@@ -7,7 +7,9 @@ certificate to an integration, an entity and a role.
 ## What limits what
 
 - **Scope** limits which APIs a token opens. nsq always requests
-  `rest_webservices`, which covers SuiteQL and also the REST record API.
+  `rest_webservices`, which covers SuiteQL and also the REST record API. nsq uses
+  the record API only for read-only metadata-catalog GETs (`nsq schema pull`); the
+  path is checked in code.
 - **Role** limits what the token can do once inside. With an Administrator role a
   `rest_webservices` token can create and change records. **The role is the real
   guardrail.** Map nsq's certificate to a read-only role.
