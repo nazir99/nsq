@@ -43,13 +43,16 @@ out of scope.
 ## Workflow
 
 1. **Read `nsq --help`** before the first run. Do not guess flags.
-2. **Joins: references first, then the map.** For documents, lots, work orders,
-   BOMs and GL lines, `references/schema.md` and `references/chaining.md` already
-   hold the verified keys. For any join they do not cover, ask the map before
-   probing: `nsq schema chain` (verified recipes), `nsq schema path <from> <to>
-   [--via t]`, `nsq schema table <t>`, `nsq schema search <text>`. Read the `!`
-   lines (traps). The map covers catalog tables; it does not know every analytics
-   table, and catalog joins marked `unprobed` can be wrong.
+2. **Joins: references first, the map only when needed.** For documents, lots,
+   work orders, BOMs and GL lines, `references/schema.md` and
+   `references/chaining.md` hold the verified keys. For a table whose name you
+   can guess, just probe it. Use the map (`nsq schema chain`, `path <from> <to>
+   [--via t]`, `table <t>`, `search <text>`) when a table is unfamiliar or your
+   first probe fails, and always for the known hard spots: addresses (subrecords
+   joined on `nkey`, not text parsing), consolidation and exchange rates
+   (multi-key joins), and SuiteApp records. Read the `!` lines (traps). One map
+   lookup, then query; do not browse it. Catalog joins marked `unprobed` can be
+   wrong.
 3. **Probe what neither vouches for**: tables or columns missing from both, joins
    marked `unprobed` or `probe FAILED`, custom fields:
    `nsq run "SELECT * FROM <table> WHERE ROWNUM <= 5" --account <sb> --format json`,
