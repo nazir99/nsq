@@ -1,33 +1,33 @@
 {
  "about": "Live read-only probe results from `nsq schema verify` (sandbox). One bounded SELECT through each join; no data values are stored.",
- "updated": "2026-09-27",
+ "updated": "2026-09-28",
  "env": "sandbox",
  "catalogSample": {
   "seed": 1,
   "probed": 200,
-  "ok": 126,
-  "failed": 74,
-  "invalid": 22,
-  "tableUnavailable": 52,
-  "access": 0,
-  "invalidOfQueryablePct": 14.9,
-  "failedPct": 37,
-  "invalidPct": 11,
+  "ok": 137,
+  "failed": 63,
+  "invalid": 13,
+  "tableUnavailable": 48,
+  "access": 2,
+  "invalidOfQueryablePct": 8.7,
+  "failedPct": 31.5,
+  "invalidPct": 6.5,
   "repaired": {
-   "probed": 20,
-   "ok": 12,
-   "failed": 8,
+   "probed": 11,
+   "ok": 8,
+   "failed": 3,
    "invalid": 0,
-   "tableUnavailable": 8,
+   "tableUnavailable": 3,
    "access": 0,
    "invalidOfQueryablePct": 0,
-   "failedPct": 40,
+   "failedPct": 27.3,
    "invalidPct": 0
   }
  },
  "facts": {
-  "probed": 41,
-  "ok": 41,
+  "probed": 46,
+  "ok": 46,
   "failed": 0,
   "invalid": 0,
   "tableUnavailable": 0,
@@ -39,207 +39,207 @@
  "edges": {
   "accountsubsidiarymap(account)->account(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "accountsubsidiarymap(subsidiary)->subsidiary(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "aggregateitemlocation(item)->item(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "aggregateitemlocation(location)->location(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "bomrevision(billofmaterials)->bom(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "bomrevisioncomponentmember(bomrevision)->bomrevision(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "bomrevisioncomponentmember(item)->item(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "bomrevisioncomponentmember(units)->unitstypeuom(internalid)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "inventoryassignment(inventorynumber)->inventorynumber(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "inventoryassignment(transaction)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "inventoryassignment(transaction+transactionline)->transactionline(transaction+id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "inventorynumber(item)->item(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "itemassemblyitembom(billofmaterials)->bom(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "itemassemblyitembom(assembly)->item(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "location(mainaddress)->locationmainaddress(nkey)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "manufacturingcosttemplatecostdetail(manufacturingcosttemplate)->manufacturingcosttemplate(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "manufacturingoperationtask(workorder)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "manufacturingrouting(billofmaterials)->bom(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "manufacturingroutingroutingstep(manufacturingworkcenter)->entitygroup(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "manufacturingroutingroutingstep(manufacturingcosttemplate)->manufacturingcosttemplate(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "manufacturingroutingroutingstep(manufacturingrouting)->manufacturingrouting(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "nexttransactionlinelink(nextdoc+nextline)->transactionline(transaction+id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "nexttransactionlinelink(previousdoc+previousline)->transactionline(transaction+id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "nexttransactionlink(nextdoc)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "nexttransactionlink(previousdoc)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "previoustransactionlink(nextdoc)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "previoustransactionlink(previousdoc)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "scriptnote(scripttype)->script(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transaction(postingperiod)->accountingperiod(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transaction(billofmaterialsrevision)->bomrevision(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transaction(transferlocation)->location(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionaccountingline(account)->account(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionaccountingline(accountingbook)->accountingbook(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionaccountingline(transaction)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionaccountingline(transaction+transactionline)->transactionline(transaction+id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionline(item)->item(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionline(location)->location(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionline(subsidiary)->subsidiary(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionline(createdfrom)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionline(transaction)->transaction(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "transactionline(units)->unitstypeuom(internalid)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "unrealizedgainloss(transactionnumber)->transaction(id)": {
@@ -395,7 +395,7 @@
   },
   "accountperiodactivity(subsidiary)->subsidiary(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "projectfinancials(transactionline)->transactionline(id)": {
@@ -466,7 +466,7 @@
   },
   "billingaccount(subsidiary)->subsidiary(id)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -482,7 +482,7 @@
   },
   "timeofftype(project)->job(id)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -514,7 +514,7 @@
   },
   "consolidatedrateadjustorplugin(runasrole)->role(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": false
   },
   "partner(defaultbillingaddress)->entityaddress(id)": {
@@ -704,7 +704,7 @@
   },
   "billingaccount(billaddresslist)->entityaddressbook(id)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -956,7 +956,7 @@
   },
   "journaltransactions(subsidiary)->subsidiary(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "noninventoryresaleitem(billqtyvarianceacct)->account(id)": {
@@ -978,7 +978,7 @@
   },
   "storepickupfulfillment(partner)->partner(id)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -999,7 +999,7 @@
   },
   "revenuecommitment(terms)->term(id)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -1069,7 +1069,7 @@
   },
   "workflowactionscriptdeployment(status)->scriptstatus(id)": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "matched": true
   },
   "job(defaultbillingaddress)->entityaddress(id)": {
@@ -1223,7 +1223,7 @@
   },
   "tegatareceivable(postingperiod)->accountingperiod(id)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -1351,7 +1351,7 @@
   },
   "billingaccount(billaddresslist)->entityaddressbook(internalid)": {
    "ok": false,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "code": "INVALID_PARAMETER",
    "kind": "table"
   },
@@ -1423,79 +1423,2268 @@
    "date": "2026-09-27",
    "code": "INVALID_PARAMETER",
    "kind": "table"
+  },
+  "itemfulfillment(shipmethod)->shipitem(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "subsidiary(representingcustomer)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "usrsnapshot(role)->role(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "phonecall(company)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "transaction(website)->website(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "sitecategory(website)->website(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "employee(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "nettingsettlement(lastmodifiedby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "financialexception(resolvedby)->employee(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "calendarevent(company)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "recsyseligibility(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "campaigntemplate(owner)->employee(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "nettingstatement(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "agentskill(createdby)->customerproject(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "taxliabilitychequelegacy(taxagency)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "entityaccountmapping(accountingbook)->accountingbook(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "requestforquote(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchaseorder(billingaddress)->purchaseorderbillingaddress(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "campaign(owner)->employee(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "taxliabilitypaymentaggregate(class)->classification(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "projectbudget(lastmodifiedby)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "campaigntemplate(owner)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "advintercompanyjournalentry(lastmodifiedby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "suitescriptdetail(entity)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "vendorcredit(intercotransaction)->transaction(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "assemblybuild(lastmodifiedby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customerrefund(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "journalentry(nexus)->nexus(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "cashsale(sourcesystem)->partnersystem(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "deletedrecord(deletedby)->genericresource(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "predictedtransaction(entity)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "charge(invoice)->transaction(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "noninventorypurchaseitem(class)->classification(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "taxliabilitypaymentlegacy(lastmodifiedby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "message(recipient)->othername(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "receivables(entity)->resourcegroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "salesorder(sourcesystem)->partnersystem(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "accountspayableagingart(subsidiarybookcurrency)->currency(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "access"
+  },
+  "transaction(entity)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "custom(lastmodifiedby)->othername(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "accounttype(defaultgeneralratetype)->consolidatedratetype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "commercesearchactivitydata(site)->website(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "periodendjournal(currency)->currency(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "cardholderauthentication(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "currencyrate(lastmodifedby)->projecttemplate(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "suitescriptdetail(entity)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "vendorpayment(currency)->currency(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "contactsubsidiaryrelationship(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "postingaccountactivity(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "binworksheet(lastmodifiedby)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "serviceitem(pricinggroup)->pricinggroup(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "itemfulfillment(lastmodifiedby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "budgets(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "creditcardcharge(createdby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customercharge(currency)->currency(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "wbs(lastmodifiedby)->job(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "employee(ethnicity)->ethnicity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "taxliabilitypayment(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "topsellingitems(transaction)->transaction(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "task(assigned)->job(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "revenuearrangement(lastmodifiedby)->partner(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "projectfinancials(expensecategory)->expensecategory(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "salesorder(lastmodifiedby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchasecontract(createdfrom)->transaction(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "taxliabilitypaymentlegacy(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "opportunity(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "receivables(entity)->othername(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "item(consumptionunit)->unitstypeuom(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "mediaitemfolder(owner)->genericresource(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "salesordered(transaction)->transaction(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "check(postingperiod)->accountingperiod(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "recurringrevenuecontract(entity)->genericresource(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "salestaxpayment(entity)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "manufacturingtransaction(routing)->manufacturingrouting(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "manufacturingcomponent(item)->item(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "blanketpurchaseorder(lastmodifiedby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "returnauthorization(salesrep)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "otherchargeresaleitem(overallquantitypricingtype)->overallquantitypricingtype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "vendorrequestforquote(lastmodifiedby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "subscriptionline(salesorder)->salesorder(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "wave(createdby)->partner(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "accountingbook(basebook)->accountingbook(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "blanketpurchaseorder(lastmodifiedby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "deletedrecord(deletedby)->resourcegroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "taxliabilitypaymentaggregate(adjaccount)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "revenueelement(revreclassfxaccount)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchasecontract(effectivitybasedon)->effectivitybasedontype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "billingschedule(recurrencepattern)->billingschedulerecurrencepattern(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "custom(owner)->job(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "expensereport(acctcorpcardexp)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "lotnumberedassemblyitem(costingmethod)->costingmethodtype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "employee(visatype)->visatype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "message(activity)->phonecall(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "cashrefund(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "lotnumberedinventoryitem(billpricevarianceacct)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "lotnumberedassemblyitem(costcategory)->costcategory(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "taxliabilitypaymentaggregate(createdby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "fulfillmentrequest(entity)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "projectbudget(createdby)->projecttemplate(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "recurringrevenuecustomer(entity)->contact(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "wave(location)->location(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "creditmemo(salesrep)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "quantitypricingschedule(overallquantitypricingtype)->overallquantitypricingtype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "paymentevent(customer)->genericresource(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchasecontract(createdby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "componentareamonthsnapshotrecord(customer)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "clientscriptdeployment(script)->clientscript(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "serviceresaleitem(overallquantitypricingtype)->overallquantitypricingtype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "purchaseorder(incoterm)->incoterm(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "scriptdeployment(script)->consolidatedrateadjustorplugin(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "oauth2clientcredentials(entity)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "glnumberingsequence(lastrunby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "charge(billto)->contact(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "financialexception(entity)->projecttemplate(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "noninventoryitem(deferralaccount)->account(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "unlockedtimeperiod(entity)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "task(owner)->projecttemplate(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "cmscontenttype(customrecordid)->customrecordtype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "chargerun(project)->partner(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "serviceitem(currency)->currency(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "servicesaleitem(parent)->servicesaleitem(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "lotnumberedinventoryitem(quantitypricingschedule)->quantitypricingschedule(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "chargerun(project)->projecttemplate(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "transactionline(entity)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "saasmetric(subsidiary)->subsidiary(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "fxreval(subsidiary)->subsidiary(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "transaction(subsidiarytaxregnum)->subsidiarytaxregistration(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "expensereport(lastmodifiedby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "commission(class)->classification(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "supplychangeorder(supplyplandefinition)->supplyplandefinition(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "message(entity)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "financialinstitution(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "memdoctransactiontemplate(lastmodifiedby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "cardholderauthentication(eci)->threedsecommerceindicator(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "othername(defaulttaxreg)->othernametaxregistration(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customersubsidiaryrelationship(entity)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "faxtemplate(owner)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "paymentgatewayplugin(loglevel)->scriptnotetype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "bundleinstallationscriptdeployment(runasrole)->role(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "knowledgebase(website)->website(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "servicesaleitem(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "crosschargejournal(createdby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "creditcardrefund(currency)->currency(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "calendarevent(company)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "planningengineresult(vendor)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "advintercompanyjournalentry(createdby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "workordercompletion(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "recsysanalyticsreport(website)->website(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "recurringrevenuecustomer(classification)->classification(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "partnersubsidiaryrelationship(entity)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "kititem(billingschedule)->billingschedule(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "roundinggainorloss(createdby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "assemblyunbuild(postingperiod)->accountingperiod(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "vendorbill(subsidiarytaxregnum)->subsidiarytaxregistration(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "revenuearrangement(lastmodifiedby)->employee(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "scheduledscriptdeployment(runasrole)->role(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "creditmemo(subsidiarytaxregnum)->subsidiarytaxregistration(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "account(sspecacct)->specialaccounttype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "giftcertificateitem(class)->classification(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "workflowactionscript(scripttype)->scripttype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "revenueelement(catchupperiod)->accountingperiod(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "recenttransactions(entity)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "estimate(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "savedsearch(createdby)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "usrsavedsearch(owner)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "ordersandreturnslinelevel(class)->classification(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "subscriptionchangeorder(customer)->customer(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "advancedrevrecplugin(runasrole)->role(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "vendorautomatedclearinghouse(state)->paymentinstrumentstatetype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "journalentry(createdby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "invoice(salesrep)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "receivables(entity)->entitygroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "vendorpaymentpayeeaddress(country)->country(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "billingschedule(initialterms)->term(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "journalentry(lastmodifiedby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "partnercommissionschedule(createdby)->projecttemplate(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "serializedassemblyitem(billqtyvarianceacct)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "userauthorizationconsent(revoked_by)->entitygroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "subscription(subsidiary)->subsidiary(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "inventoryworksheet(postingperiod)->accountingperiod(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "emailtemplate(lastmodifiedby)->resourcegroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "portletdeployment(status)->scriptstatus(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "customerpaymentauthorization(lastmodifiedby)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "cmspage(createdby)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "terminationreason(terminationcategory)->hcmterminationcategory(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "intercompanyallocationschedule(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "domain(website)->website(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "invoicegroup(customer)->customer(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "itemfulfillment(returnshippingaddress)->itemfulfillmentreturnaddress(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "salespricingoverview(status)->transactionstatus(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "crmtemplatecategory(owner)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "inboundshipmentitem(shipmentitemtransaction)->transactionline(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "revrecschedule(recurrencetype)->revrecrecurrencetype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "inventoryitem(dropshipexpenseaccount)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "mailtemplate(lastmodifiedby)->genericresource(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "transaction(website)->website(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "sitecategory(website)->website(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "commercesearchactivitydata(site)->website(internalid)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "employee(ethnicity)->ethnicity(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "item(consumptionunit)->unitstypeuom(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "otherchargeresaleitem(overallquantitypricingtype)->overallquantitypricingtype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchasecontract(effectivitybasedon)->effectivitybasedontype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "lotnumberedassemblyitem(costingmethod)->costingmethodtype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "employee(visatype)->visatype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "quantitypricingschedule(overallquantitypricingtype)->overallquantitypricingtype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "serviceresaleitem(overallquantitypricingtype)->overallquantitypricingtype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "cmscontenttype(customrecordid)->customrecordtype(internalid)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "cardholderauthentication(eci)->threedsecommerceindicator(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "knowledgebase(website)->website(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "recsysanalyticsreport(website)->website(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "vendorautomatedclearinghouse(state)->paymentinstrumentstatetype(key)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "terminationreason(terminationcategory)->hcmterminationcategory(key)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "domain(website)->website(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "revrecschedule(recurrencetype)->revrecrecurrencetype(key)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "itemvendor(item)->item(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "itemvendor(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "itemvendor(vendor)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "transaction(billingaddress)->transactionbillingaddress(nkey)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "transaction(shippingaddress)->transactionshippingaddress(nkey)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "vendorprepaymentapplication(entity)->customerproject(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "vendorcredit(createdby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "suitescriptdetail(script)->bundleinstallationscript(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "journalentry(parentexpensealloc)->allocationschedule(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "importedemployeeexpense(employee)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "recordactionscriptdeployment(runasrole)->role(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "emailcaptureplugin(loglevel)->scriptnotetype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "timeentry(class)->classification(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "workassignment(assignee)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "gatewaynotification(paymentstatus)->paymentstatus(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "entitystatushistory(entity)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "role(createdby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "pricingwithcustomers(currency)->currency(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "picktaskinventorybalance(wave)->transaction(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "workflowactionscriptdeployment(script)->workflowactionscript(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "phonecall(bom)->bom(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "inventoryworksheet(class)->classification(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "salesoverview(accountingbook)->accountingbook(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "useroauthtoken(role_name)->role(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "allocationbatch(createdby)->entitygroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "faxtemplate(owner)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "requestforquote(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "giftcertificateitem(storedisplayimage)->file(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "testplugin(apiversion)->scriptversion(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "noninventoryresaleitem(amortizationtemplate)->amortizationtemplate(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "phonecall(assigned)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "otherchargepurchaseitem(currency)->currency(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "vendorrequestforquote(entity)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "accountspayableagingart(entity)->customerproject(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "access"
+  },
+  "savedsearch(createdby)->resourcegroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "calendarevent(organizer)->resourcegroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "unrealizedgainloss(revaluationaccount)->account(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "customglplugin(scripttype)->scripttype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "note(activity)->issue(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "inventorydistribution(lastmodifiedby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "cashsale(paymentoption)->paymentcard(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "clientscript(scripttype)->scripttype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "otherchargeresaleitem(intercoincomeaccount)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "paymentgatewayplugin(owner)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "workorderclose(billofmaterials)->bom(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "searchcampaign(ownerrole)->role(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "purchaseorder(status)->purchaseorderstatus(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "agentskill(owner)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "glimpactadjustment(createdby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "weeklytimetracking(employee)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "purchasebyvendorart(transactionline)->transactionline(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "intercompanyjournalentry(postingperiod)->accountingperiod(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "depositapplication(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "customerdeposit(customer)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "savedsearch(createdby)->othername(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "picktaskinventorybalance(inventorynumber)->inventorynumber(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customerpayment(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "serializedinventoryitem(supplyreplenishmentmethod)->supplyreplenishmenttype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "partnercommissionschedule(createdby)->othername(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "servicepurchaseitem(parent)->servicepurchaseitem(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "caseprofile(linkregenerationtemplate)->systememailtemplate(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "campaigntemplate(owner)->genericresource(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "paymentevent(cscmatch)->verificationmatchcode(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "journalentry(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "projecticchargerequest(lastmodifiedby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchasebyvendorart(account)->account(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "onlineformtemplate(owner)->customer(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "purchaseorder(terms)->term(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "oauthtoken(entity_name)->entitygroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "nsedailymetric(companyinternalid)->contact(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "knowledgebase(publishto)->sitecategory(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "bankstatementparserplugin(scripttype)->scripttype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "noninventorypurchaseitem(subtype)->itemsubtype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "generalallocationschedule(creditentity)->job(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "savedreport(owner)->job(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customerdeposit(createdby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "timeoffrule(carryoverexpirymonth)->monthsofyear(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "analyticalimpact(entity)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "inventoryitem(unitstype)->unitstype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "campaigntemplate(owner)->contact(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "serializedassemblyitem(storedisplaythumbnail)->file(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "item(parent)->item(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "supportcase(company)->customerproject(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "opportunity(entity)->job(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "vendorreturnauthorizationbillingaddress(country)->country(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "serializedassemblyitem(pricinggroup)->pricinggroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "planningrepositoryallocation(item)->item(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "savedreport(owner)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "lotnumberedassemblyitem(billingschedule)->billingschedule(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customercharge(type)->transactionname(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "roundinggainloss(entity)->entitygroup(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "chargerun(project)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "customer(territory)->salesterritory(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "iprestrictions(user)->othername(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchaseorder(sourcesystem)->partnersystem(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "bundleinstallationscript(scriptfile)->file(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "creditcardrefund(entity)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "customerdeposit(paymentoption)->paymentcard(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "inventorytransfer(class)->classification(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "systemjournal(currency)->currency(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "itemsupplyplan(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "scriptdeployment(script)->promotionsplugin(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customercharge(class)->classification(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "otherchargeitem(intercoincomeaccount)->account(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "pricing(quantity)->itemquantity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "authorizationconsent(entity_name)->projecttemplate(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "intercompanytransferorder(createdby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "itemfulfillment(lastmodifiedby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "vendorpayment(lastmodifiedby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "ocrimportjobreview(vendorbill)->transaction(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "wtdtaskassignment(assigneeentity)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "recurringrevenuecontract(entity)->othername(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "salesordered(subsidiary)->subsidiary(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "item(periodiclotsizetype)->itemperiodiclotsizetype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "salesorder(entity)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "noninventoryresaleitem(billpricevarianceacct)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "billofdistribution(location)->location(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "paycheckjournal(class)->classification(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "systemnote(name)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "supplychainsnapshot(stockunit)->unitstypeuom(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "fulfillmentrequest(createdby)->partner(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "postingaccountactivity(entity)->othername(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "website(websitetheme)->sitetheme(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "taxliabilitypayment(lastmodifiedby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "budgetlegacy(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "blanketpurchaseorder(lastmodifiedby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "inventoryitem(gainlossaccount)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "customrecordactionscript(returntype)->scriptfieldtype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "entityaccountmapping(sourceaccount)->account(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "deletedrecord(deletedby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "systememailtemplate(owner)->resourcegroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "manufacturingcomponent(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "inventoryitem(custreturnvarianceaccount)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "customercharge(account)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "serviceresaleitem(itemtype)->itemtype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "check(createdby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "assemblyitem(unitstype)->unitstype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "authorizationconsent(entity_name)->genericresource(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "otherchargeitem(costestimatetype)->costestimatetype(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "saasmetric(entity)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "website(websitescope)->websitescope(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "roundinggainorloss(lastmodifiedby)->employee(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "website(nub)->file(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "workorderclose(createdby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "employee(image)->file(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "task(company)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "estimate(job)->job(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "taxliabilitychequelegacy(account)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "pametricresult(kcustomerid)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "supplychainsnapshotsimulation(demandentity)->customerproject(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "crosschargejournal(lastmodifiedby)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "lotnumberedassemblyitem(countryofmanufacture)->country(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "partner(department)->department(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "tegatapayable(createdby)->vendor(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "opportunity(winlossreason)->winlossreason(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "supplychainsnapshotsimulation(supplyentity)->contact(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "wtdtask(actioncompletedby)->customer(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "invoicebillingaddress(dropdownstate)->state(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "transactionline(entity)->partner(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "unrealizedgainorloss(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "serializedassemblyitem(storedisplayimage)->file(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "mediaitemfolder(owner)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "transactionhistory(type)->transactionname(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "salesinvoiced(location)->location(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "scriptdeployment(script)->emailcaptureplugin(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "transactionshippingaddressbookentityaddress(dropdownstate)->state(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "tegatapayable(accountpayable)->account(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "taxliabilitypaymentaggregate(account)->account(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "opportunity(entitytaxregnum)->entitytaxregistration(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "itemfulfillment(createdby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "chargerun(project)->entitygroup(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "cashrefund(shippingaddress)->cashrefundshippingaddress(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "invalid"
+  },
+  "timebill(casetaskevent)->task(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "salesorder(entity)->job(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "inventorytransfer(lastmodifiedby)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "shoppingcart(customer)->customer(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "realizedgainorloss(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "purchaserequisition(terms)->term(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "expensereport(createdby)->entity(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "itemquantity(itemquantity)->item(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "UNEXPECTED_ERROR",
+   "kind": "invalid"
+  },
+  "billingschedule(scheduletype)->billingscheduletype(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "notification(owner)->customerproject(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "revenuecommitmentreversal(subsidiary)->subsidiary(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "invoice(salesrep)->entitygroup(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "campaigntemplate(lastmodifiedby)->entity(id)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "phonecall(owner)->vendor(id)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "gatewaynotification(paymentstatus)->paymentstatus(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "serializedinventoryitem(supplyreplenishmentmethod)->supplyreplenishmenttype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "paymentevent(cscmatch)->verificationmatchcode(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "noninventorypurchaseitem(subtype)->itemsubtype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "timeoffrule(carryoverexpirymonth)->monthsofyear(key)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "item(periodiclotsizetype)->itemperiodiclotsizetype(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
+  },
+  "supplychainsnapshot(stockunit)->unitstypeuom(internalid)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "website(websitetheme)->sitetheme(key)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": true
+  },
+  "otherchargeitem(costestimatetype)->costestimatetype(key)": {
+   "ok": false,
+   "date": "2026-09-28",
+   "code": "INVALID_PARAMETER",
+   "kind": "table"
+  },
+  "cashrefund(shippingaddress)->cashrefundshippingaddress(nkey)": {
+   "ok": true,
+   "date": "2026-09-28",
+   "matched": false
   }
  },
  "columns": {
   "transactionaccountingline": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 16
   },
   "aggregateitemlocation": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 17
   },
   "inventoryassignment": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 5
   },
   "nexttransactionlink": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 3
   },
   "previoustransactionlink": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 3
   },
   "nexttransactionlinelink": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 11
   },
   "bomrevisioncomponentmember": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 12
   },
   "itemassemblyitembom": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 5
   },
   "manufacturingroutingroutingstep": {
    "ok": true,
-   "date": "2026-09-27",
+   "date": "2026-09-28",
    "columns": 7
+  },
+  "itemvendor": {
+   "ok": true,
+   "date": "2026-09-28",
+   "columns": 11
   }
  },
  "chains": {
   "invoice-to-shipped-lots": {
    "ok": true,
-   "date": "2026-09-27"
+   "date": "2026-09-28"
   },
   "gl-line-to-source": {
    "ok": true,
-   "date": "2026-09-27"
+   "date": "2026-09-28"
   },
   "assembly-bom-as-of": {
    "ok": true,
-   "date": "2026-09-27"
+   "date": "2026-09-28"
   },
   "work-order-documents": {
    "ok": true,
-   "date": "2026-09-27"
+   "date": "2026-09-28"
   },
   "lot-maker": {
    "ok": true,
-   "date": "2026-09-27"
+   "date": "2026-09-28"
   },
   "invoice-to-cogs": {
    "ok": true,
-   "date": "2026-09-27"
+   "date": "2026-09-28"
+  },
+  "gl-line-consolidated-rate": {
+   "ok": true,
+   "date": "2026-09-28"
   }
  }
 }

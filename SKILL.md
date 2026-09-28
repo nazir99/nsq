@@ -43,19 +43,19 @@ out of scope.
 ## Workflow
 
 1. **Read `nsq --help`** before the first run. Do not guess flags.
-2. **Joins come from the map, not from reading files.** Before probing, grepping
-   or opening `references/`, run `nsq schema chain` (verified recipes: invoice to
-   lots, GL line to source, BOM as of a date, work order documents, lot maker,
-   invoice to COGS; `nsq schema chain <name>` prints SQL and traps). Otherwise
-   `nsq schema path <from> <to> [--via t]`, `nsq schema table <t>`,
-   `nsq schema search <text>`. The `!` lines already carry the traps from
-   `references/`; do not grep them for join keys.
-3. **Probe only what the map does not vouch for**: tables or columns it lacks,
-   joins marked `unprobed` or `probe FAILED`, custom fields:
+2. **Joins: references first, then the map.** For documents, lots, work orders,
+   BOMs and GL lines, `references/schema.md` and `references/chaining.md` already
+   hold the verified keys. For any join they do not cover, ask the map before
+   probing: `nsq schema chain` (verified recipes), `nsq schema path <from> <to>
+   [--via t]`, `nsq schema table <t>`, `nsq schema search <text>`. Read the `!`
+   lines (traps). The map covers catalog tables; it does not know every analytics
+   table, and catalog joins marked `unprobed` can be wrong.
+3. **Probe what neither vouches for**: tables or columns missing from both, joins
+   marked `unprobed` or `probe FAILED`, custom fields:
    `nsq run "SELECT * FROM <table> WHERE ROWNUM <= 5" --account <sb> --format json`,
    in a gitignored scratch folder.
 4. **Dialect and errors**: `references/dialect.md` for syntax, `references/errors.md`
-   for any error text, `references/chaining.md` only for chains the map lacks.
+   for any error text.
 5. **Verify shape** (every time, before anyone uses the data):
    - Row count and total are what you expect; an **empty result is a finding**, not a pass.
    - No join fan-out: row count per key matches the grain you intended.
@@ -70,9 +70,13 @@ out of scope.
 
 ## Traps
 
-Join and table traps print with `nsq schema` (`!` lines). SQL traps that bite most:
-`COUNT(*)` on `transaction` fails (use `COUNT(t.id)`); `ORDER BY x DESC` puts NULLs
-first; filter status in both forms, `IN ('D','WorkOrd:D')`.
+- `transactionaccountingline` joins lines on `tl.id`, never `linesequencenumber`,
+  and always filters `accountingbook`.
+- Location, subsidiary and `createdfrom` are on `transactionline`, not `transaction`.
+- `COUNT(*)` on `transaction` fails: use `COUNT(t.id)`.
+- `ORDER BY x DESC` puts NULLs first: top-N queries return null rows.
+- Status filters: write both forms, `IN ('D','WorkOrd:D')`.
+- Map joins print their own traps (`!` lines).
 
 ## Output contract
 

@@ -113,12 +113,12 @@ SuiteQL Query Tool export. Catalog joins stay `unprobed` until `nsq schema verif
 passes them; verified facts win on conflict.
 
 Measured on one sandbox export (2,768 tables, 83,715 relationships, 2026-09): of a
-deterministic sample of 200 standard catalog joins, 37% failed a live probe. 26% failed
-because a table is not queryable by a read-only role (says nothing about the join);
-11% were bad joins, every one of them a target key the table does not have (`id` on a
-list or address table) or a sublist name used as a column. The build repairs the
-list and units cases; every repaired join in the sample whose tables were queryable
-passed. `nsq schema verify` shows these numbers for your own account.
+deterministic sample of 200 standard catalog joins, taken as exported, 31.5% failed a
+live probe (37% on an earlier sample). Most of that (24%) is tables a read-only role
+cannot query, which says nothing about the join; 6.5% were bad joins, each a target
+key the table does not have (`id` on a list, unit or address table) or a sublist name
+used as a column. The build repairs the `key`, `internalid` and `nkey` cases; every
+repaired join in the sample whose tables were queryable passed. `nsq schema verify` shows these numbers for your own account.
 
 ### Adding another account
 

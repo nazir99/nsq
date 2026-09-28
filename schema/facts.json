@@ -398,6 +398,58 @@
         "Work center and cost template are on the step, not the routing: one routing can span several work centers.",
         "runrate units are unresolved: confirm against the UI before using it in math."
       ]
+    },
+    "itemvendor": {
+      "label": "Item Vendor (vendor, price per subsidiary)",
+      "columns": [
+        [
+          "item",
+          "INTEGER"
+        ],
+        [
+          "vendor",
+          "INTEGER"
+        ],
+        [
+          "subsidiary",
+          "INTEGER"
+        ],
+        [
+          "preferredvendor",
+          "BOOLEAN"
+        ],
+        [
+          "purchaseprice",
+          "CURRENCY"
+        ],
+        [
+          "vendorcost",
+          "CURRENCY"
+        ],
+        [
+          "vendorcostentered",
+          "CURRENCY"
+        ],
+        [
+          "vendorcurrencyid",
+          "INTEGER"
+        ],
+        [
+          "itemvendorprice",
+          "STRING"
+        ],
+        [
+          "predconfidence",
+          "FLOAT"
+        ],
+        [
+          "predicteddays",
+          "INTEGER"
+        ]
+      ],
+      "traps": [
+        "One row per item, vendor and subsidiary: filter preferredvendor = 'T' for the preferred vendor. item.vendor holds only the preferred vendor, no price."
+      ]
     }
   },
   "tableTraps": {
@@ -442,6 +494,9 @@
     ],
     "manufacturingcosttemplatecostdetail": [
       "runrate and fixedrate are different units: total them separately, never sum them together."
+    ],
+    "consolidatedexchangerate": [
+      "One row per from/to subsidiary, posting period and accounting book: join all four (fromsubsidiary, tosubsidiary = subsidiary.parent, postingperiod, accountingbook) or rows multiply. The top-level subsidiary has no parent row."
     ]
   },
   "edges": [
@@ -947,6 +1002,69 @@
         ]
       ],
       "label": "Script"
+    },
+    {
+      "from": "itemvendor",
+      "to": "item",
+      "keys": [
+        [
+          "item",
+          "id"
+        ]
+      ],
+      "label": "Item"
+    },
+    {
+      "from": "itemvendor",
+      "to": "vendor",
+      "keys": [
+        [
+          "vendor",
+          "id"
+        ]
+      ],
+      "label": "Vendor"
+    },
+    {
+      "from": "itemvendor",
+      "to": "subsidiary",
+      "keys": [
+        [
+          "subsidiary",
+          "id"
+        ]
+      ],
+      "label": "Subsidiary"
+    },
+    {
+      "from": "transaction",
+      "to": "transactionshippingaddress",
+      "keys": [
+        [
+          "shippingaddress",
+          "nkey"
+        ]
+      ],
+      "label": "Ship-to address",
+      "card": "1:1",
+      "traps": [
+        "Address tables key on nkey, not id."
+      ]
+    },
+    {
+      "from": "transaction",
+      "to": "transactionbillingaddress",
+      "keys": [
+        [
+          "billingaddress",
+          "nkey"
+        ]
+      ],
+      "label": "Bill-to address",
+      "card": "1:1",
+      "traps": [
+        "Address tables key on nkey, not id."
+      ]
     }
   ],
   "typeCodes": {
@@ -1198,6 +1316,22 @@
         "Per-unit COGS times invoiced quantity when invoices and fulfillments do not match one-to-one."
       ],
       "probe": "SELECT inv.id, fl.transaction, tal.account, NVL(tal.debit,0) - NVL(tal.credit,0) AS cogs FROM transaction inv JOIN transactionline il ON il.transaction = inv.id AND il.mainline = 'F' AND il.item IS NOT NULL JOIN transactionline fl ON fl.createdfrom = il.createdfrom AND fl.item = il.item AND fl.iscogs = 'T' JOIN transaction f ON f.id = fl.transaction AND f.type = 'ItemShip' JOIN transactionaccountingline tal ON tal.transaction = fl.transaction AND tal.transactionline = fl.id JOIN account a ON a.id = tal.account AND a.accttype = 'COGS' JOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T' WHERE inv.type = 'CustInvc' AND ROWNUM <= 5"
+    },
+    {
+      "name": "gl-line-consolidated-rate",
+      "from": [
+        "transactionaccountingline"
+      ],
+      "to": [
+        "consolidatedexchangerate"
+      ],
+      "about": "Consolidated exchange rates that translate a GL line's subsidiary into its parent for the posting period and book.",
+      "sql": "FROM transactionaccountingline tal\nJOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T'\nJOIN transaction t ON t.id = tal.transaction\nJOIN transactionline tl ON tl.transaction = tal.transaction AND tl.id = tal.transactionline\nJOIN subsidiary s ON s.id = tl.subsidiary\nJOIN consolidatedexchangerate cer ON cer.fromsubsidiary = tl.subsidiary AND cer.tosubsidiary = s.parent\n AND cer.postingperiod = t.postingperiod AND cer.accountingbook = tal.accountingbook\nWHERE tal.posting = 'T' AND t.posting = 'T'",
+      "traps": [
+        "All four keys or the rate row multiplies.",
+        "Lines of the top-level subsidiary have no parent rate: LEFT JOIN to keep them."
+      ],
+      "probe": "SELECT tal.transaction, cer.averagerate FROM transactionaccountingline tal JOIN accountingbook ab ON ab.id = tal.accountingbook AND ab.isprimary = 'T' JOIN transaction t ON t.id = tal.transaction JOIN transactionline tl ON tl.transaction = tal.transaction AND tl.id = tal.transactionline JOIN subsidiary s ON s.id = tl.subsidiary JOIN consolidatedexchangerate cer ON cer.fromsubsidiary = tl.subsidiary AND cer.tosubsidiary = s.parent AND cer.postingperiod = t.postingperiod AND cer.accountingbook = tal.accountingbook WHERE tal.posting = 'T' AND ROWNUM <= 5"
     }
   ]
 }
