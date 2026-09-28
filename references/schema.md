@@ -44,6 +44,16 @@ customizations can differ, so confirm in yours.
 - `account`: use `accountsearchdisplayname` (not `name`), `accttype` (e.g. `COGS`).
   `accountsubsidiarymap` maps accounts to subsidiaries.
 
+## Record tables worth knowing
+
+- `inventorycostrevaluation`: one row per revaluation with `item`, `location`,
+  `trandate`, `unitcost` (the new unit cost), `voided`, `subsidiary` on the header.
+  The same id is the `transaction` row (`type = 'InvReval'`).
+- `transactionaccountingline.amountunpaid`: open amount in the posting subsidiary's
+  base currency on AR/AP lines; ties invoice-level aging to the AR account.
+- Invoice open amount in base currency: `foreignamountunpaid * exchangerate` on the
+  invoice, or `amountunpaid` on its AR accounting line.
+
 ## Signs and currency
 
 - Sales order and invoice line quantity and amount are negative; credit memo lines positive.
@@ -83,6 +93,8 @@ customizations can differ, so confirm in yours.
   `effectiveenddate`) -> `bomrevisioncomponentmember` (`bomrevision`, `item`, `quantity`, `units`).
   `bomrevisioncomponent` also exists and is what `systemnote` refers to.
 - An as-of date outside every revision window returns zero rows.
+- Exclude inactive BOMs and revisions (`bom.isinactive`, `bomrevision.isinactive`);
+  an inactive BOM can still have an open-ended revision.
 - A work order's actual recipe: `transaction.billofmaterialsrevision`.
 - `manufacturingrouting` (`billofmaterials`, multi-select `location`, `isdefault`,
   `isinactive`) -> `manufacturingroutingroutingstep` (`operationsequence`, `setuptime`,

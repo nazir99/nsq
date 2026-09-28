@@ -6,7 +6,7 @@ Service Connector endpoint is stricter (no CTEs, no `BUILTIN.DF`).
 
 ## Works
 
-- `WHERE ROWNUM <= n`, and `FETCH FIRST n ROWS ONLY`.
+- `WHERE ROWNUM <= n`, and `FETCH FIRST n ROWS ONLY` (also inside a subquery).
 - CTEs: `WITH x AS (SELECT ...) SELECT ... FROM x`.
 - Window functions: `ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)`, `COUNT(x) OVER ()`,
   `SUM(x) OVER (...)`. Latest-per-group: wrap and filter,
@@ -41,6 +41,10 @@ Service Connector endpoint is stricter (no CTEs, no `BUILTIN.DF`).
 | `BUILTIN.DF` on a grouped column | Returns null | Join the record, select its name |
 | Constant in SELECT (`'x' AS m`) on `systemnote` | Fails | Add constants client side |
 | Template placeholders `{param}` | Syntax error | Literal values in nsq; `?` binds in SuiteScript |
+| Recursive CTE (`WITH r AS (... UNION ALL ... FROM r)`) | "Invalid search type: r" | One query per level, or a fixed-depth `UNION ALL` generated per level |
+| `CONNECT BY PRIOR` on a table | Runs, but `LEVEL` is wrong; `SYS_CONNECT_BY_PATH` rejected | Do not use for hierarchies; walk levels |
+| `ROW_NUMBER() OVER` directly on `inventorycostrevaluation` | "Trying to replace unknown child: r.item" | `MAX(id) KEEP (DENSE_RANK LAST ORDER BY trandate, id)` grouped, then join back; or rank on `transaction` + `transactionline` |
+| `SYSDATE` in day arithmetic | Fractional days; boundary rows fall in the next bucket | `TRUNC(SYSDATE)` |
 
 ## Habits
 

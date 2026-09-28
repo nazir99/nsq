@@ -195,6 +195,20 @@ production unless you pass `--env sandbox` or `--env production` when adding it.
 The same key pair can be uploaded to every account you manage. Certificates last
 at most two years.
 
+## Testing
+
+Two kinds of tests:
+
+- **Unit tests** for the CLI and the schema map: `node --test test/*.test.js`.
+- **Agent benchmarks** in [`benchmarks/`](benchmarks/README.md): 53 agent runs in a
+  NetSuite sandbox, comparing a strong and a small model, with and without the skill
+  and the schema map, graded by an independent agent against reference answers.
+  Headline results: a strong model got every hard query right with or without the
+  skill; a small model got none fully right and reported three wrong results as
+  verified either way; the schema map saves tokens only on unfamiliar joins and for
+  smaller models. The skill's model guidance, traps and "references first" rule
+  come from those results.
+
 ## Layout
 
 ```
@@ -209,6 +223,7 @@ references/                 loaded by the agent on demand
 schema/                     the join map (graph, suiteapp, facts, probes)
 bin/ lib/                   the CLI (lib/schema: build, path search, verify, pull)
 test/                       node --test test/*.test.js
+benchmarks/                 how the skill was tested and what changed because of it
 ```
 
 ## License

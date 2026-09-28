@@ -71,15 +71,42 @@ out of scope.
 6. **Store**: `.sql` next to its result in a gitignored data folder; `--format json`
    or `csv` for anything downstream. Note account, environment and pull date.
 
+## SuiteQL can do this: keep the logic in SQL
+
+Joins, CTEs (`WITH`), window functions (`ROW_NUMBER`, `SUM() OVER`, `COUNT() OVER`),
+`KEEP (DENSE_RANK LAST ...)`, `CASE`, date arithmetic (`TRUNC(SYSDATE) - duedate`),
+`TO_DATE`, `ROWNUM` and `FETCH FIRST`. If one of these errors, the cause is a
+specific table or shape (see `references/dialect.md`), not the feature. Do not move
+logic into Python or awk because of a guess that SuiteQL "does not support" it.
+
+Not available: recursion. Recursive CTEs fail, and `CONNECT BY` runs but returns
+wrong `LEVEL` values. Walk hierarchies (BOMs) one level per query.
+
 ## Traps
 
+- **Never add amounts across subsidiaries with different base currencies.** Report
+  per subsidiary (with its currency) or convert with `consolidatedexchangerate`.
 - `transactionaccountingline` joins lines on `tl.id`, never `linesequencenumber`,
   and always filters `accountingbook`.
 - Location, subsidiary and `createdfrom` are on `transactionline`, not `transaction`.
 - `COUNT(*)` on `transaction` fails: use `COUNT(t.id)`.
 - `ORDER BY x DESC` puts NULLs first: top-N queries return null rows.
+- `SYSDATE` includes the time: use `TRUNC(SYSDATE)` for days past due and buckets.
 - Status filters: write both forms, `IN ('D','WorkOrd:D')`.
+- "Latest per group" needs a tie-break on id (`ORDER BY trandate DESC, id DESC`).
+- Inventory value comes from ASSET lines (or `transactionaccountingline` on the
+  asset account), never from summing every line of a transaction.
+- BOMs: exclude inactive BOMs and revisions (`isinactive = 'F'`), filter the
+  revision by start AND end date, pick one BOM per assembly.
 - Map joins print their own traps (`!` lines).
+
+## Model choice
+
+Measured (see `benchmarks/`): a strong model got every hard query right with or
+without this skill; a small model got none fully right and still reported three
+wrong results as verified. Use a strong model for anything beyond a simple join
+(rollforwards, aging, cost logic, BOM explosions). Treat a small model's
+`VERIFIED` as unverified until an independent check repeats it.
 
 ## Output contract
 
