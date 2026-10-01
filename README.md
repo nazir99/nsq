@@ -1,41 +1,52 @@
 # nsq
 
-A read-only SuiteQL runner for NetSuite, and an agent skill that teaches AI coding
-agents to use it safely.
+**Lets an AI assistant pull data out of NetSuite without changing anything, and
+makes it prove the data is complete before anyone uses it.**
 
-The CLI sends SuiteQL to NetSuite's REST endpoint with OAuth 2.0 Machine-to-Machine
-auth and prints the result, or saves it next to the `.sql` file. The skill
-(`SKILL.md`) tells an agent how to find NetSuite data, prove it is complete and
-correctly shaped, and store it without leaking client data.
+Two parts:
 
-Part of [software-factory](https://github.com/nazir99/software-factory): the data link.
+- **A command-line tool** that runs read-only queries against NetSuite and saves
+  the results outside source control.
+- **A skill** (`SKILL.md`): instructions for the AI on finding the right data,
+  proving it is complete and correctly shaped, and keeping client data safe.
+  `SKILL.md` is written for the AI, not for people.
+
+Step 1 of [software-factory](https://github.com/nazir99/software-factory).
 
 ## Why it exists
 
-Agents write decent SuiteQL. Where they fail is everything around the query: they
-run against production because someone said "just go", they reuse a read
-credential to write records, they trust a table name from memory, and they call a
-number "tied" when it only agrees with itself. nsq puts the hard rules in the tool
-and the judgment calls in the skill.
+AI assistants write decent NetSuite queries. They fail at everything around the
+query:
 
-## Guardrails
+- they run against production because someone said "just go"
+- they reuse a read-only login to write records
+- they trust a table name from memory
+- they call a number "tied" when it only agrees with itself
 
-Enforced by the CLI:
+nsq builds the hard rules into the tool and puts the judgment calls in the skill.
 
-| Guardrail | Behavior |
+## What it guarantees
+
+| Guarantee | How |
 |---|---|
-| Production is opt-in | Production profiles need `--prod` on every run |
-| No silent truncation | Default cap 1000 rows; if more exist the run fails (exit 3) until you pass `--max <n>` or `--max all` |
-| One SELECT | Only a single `SELECT` or `WITH ... SELECT` statement |
-| Results stay out of git | Refuses to save inside a git repository unless the path is gitignored |
-| Visible environment | Every run prints the account alias and `[production]` or `[sandbox]` |
+| It cannot change NetSuite data | Only a single `SELECT` runs. Its NetSuite login should be mapped to a read-only role (setup step 3). |
+| Production only on request | A production account needs `--prod` on every run, so production is never the accidental choice. |
+| No silently missing rows | It stops at 1,000 rows and fails if more exist, until you pass `--max <n>` or `--max all`. |
+| Client data stays out of git | It refuses to save results inside a repository unless that folder is ignored. |
+| You always know where it ran | Every run prints the account and `[production]` or `[sandbox]`. |
+| Nothing is "verified" on faith | The skill requires a footing to an independent NetSuite figure before it reports `VERIFIED`. |
 
-Enforced by NetSuite, if you set it up that way (recommended): map nsq's certificate
-to a **read-only role**. See `references/auth-and-roles.md`.
+## What testing showed
 
-Enforced by the skill: never touch the private key or sign tokens, never write or
-call RESTlets with these credentials, probe before trusting names, verify against
-an independent figure, stop on permission errors.
+53 runs in a NetSuite sandbox. Each was graded by a separate AI that worked out its
+own answers. Full write-up: [`benchmarks/`](benchmarks/README.md).
+
+- A strong model got every hard query right, with or without the skill.
+- A small model got none fully right, and reported three wrong results as
+  verified. **Use a strong model past simple joins, and never accept a small
+  model's "verified" without an independent re-check.**
+- The table map (below) saves effort only on unfamiliar joins and with smaller
+  models. The skill says to use it only then.
 
 ## Install
 
@@ -46,9 +57,9 @@ git clone https://github.com/nazir99/nsq.git ~/.claude/skills/nsq
 cd ~/.claude/skills/nsq && npm link        # puts `nsq` on your PATH
 ```
 
-The folder is a plain skill in the open Agent Skills format (`SKILL.md` plus
-`references/`). For agents other than Claude Code, clone it wherever that agent
-loads skills from.
+Then do the one-time [Setup](#setup-once-per-netsuite-account-admin-required) for
+each NetSuite account. For agents other than Claude Code, clone the folder wherever
+that agent loads skills from.
 
 ## Usage
 
@@ -64,99 +75,20 @@ Results save next to the `.sql` file as `<name>.result.md` (or `.csv` / `.json`)
 NetSuite errors print verbatim and save as `<name>.error.txt`. Keep query folders
 gitignored, or pass `--out` to a path outside the repository.
 
-## Schema graph: how NetSuite tables join
+## Schema graph
 
-Agents burn tokens (and get joins wrong) working out how NetSuite tables connect.
-`nsq schema` answers from a generated map of standard NetSuite tables, columns and
-join keys, with known traps attached to the joins and tables they belong to.
+A map of how standard NetSuite tables join, with known traps attached, so the AI
+does not have to guess join keys.
 
 ```bash
-nsq schema chain                                  # verified multi-hop recipes
-nsq schema chain invoice-to-shipped-lots          # SQL skeleton + traps
 nsq schema path transactionaccountingline transaction --via transactionline
-nsq schema table inventoryassignment              # columns, joins in/out, traps, where seen
-nsq schema table revenuearrangement --account sb1 # adds a live row count: "exists but empty"
+nsq schema table inventoryassignment     # columns, joins, traps
 nsq schema search "document number"
+nsq schema chain                         # verified multi-hop recipes
 ```
 
-Output is compact text; add `--format json` for structure. `path` returns the exact
-keys at every hop, the traps on each hop and table, and a `FROM ... JOIN ...`
-skeleton. It prefers verified joins, avoids joins whose catalog column is not a real
-column, and flags fan-out (a hop up to a parent and straight back down).
-
-### What is in it
-
-| Layer | File | Content |
-|---|---|---|
-| Standard | `schema/graph.json` | Standard tables, columns and joins (generated) |
-| SuiteApp | `schema/suiteapp.json` | Oracle SuiteApp records on an allowlist: Fixed Assets Management (`ncfar_`, `fam_`), Electronic Bank Payments (`2663_`) |
-| Facts | `schema/facts.json` | Hand-maintained, verified: tables missing from the catalog (`transactionaccountingline`, `aggregateitemlocation`, `inventoryassignment`, `nexttransactionlink`, `nexttransactionlinelink`, `bomrevisioncomponentmember`, ...), corrected joins, traps, chains |
-| Probes | `schema/probes.json` | Live read-only probe results (pass/fail and error code only, no data) |
-| Custom | `~/.netsuite-query/schema/<alias>.json` | That account's custom records, lists and fields. Merged at query time, never committed |
-
-Every join records its `sources` (`catalog`, `facts`, `derived`), whether a live probe
-passed (`verified`), and `seenIn`: which account exports contained it (opaque keys in
-the public files; `~/.netsuite-query/schema/exports.json` maps them to your aliases).
-Tables carry a `feature` tag where it applies (Advanced Revenue Management, SuiteBilling,
-Manufacturing, Projects, Intercompany, Consolidation).
-
-### How much to trust the catalog
-
-The Records Catalog lists joins in a human-readable form and exports parse it. Known
-problems, all handled in the build: ids arrive in two casings (merged); some join
-columns are sublist names rather than columns (`transactionline.transactionLines`
-fails live; the real key is `transactionline.transaction`); list tables and units are
-exported as joining on `id` when their key is `key` or `internalid` (repaired, the
-original kept); polymorphic joins list every record subtype (collapsed to
-`transaction`, `item`, `entity`); multi-key joins lose all but the first key in the
-SuiteQL Query Tool export. Catalog joins stay `unprobed` until `nsq schema verify`
-passes them; verified facts win on conflict.
-
-Measured on one sandbox export (2,768 tables, 83,715 relationships, 2026-09): of a
-deterministic sample of 200 standard catalog joins, taken as exported, 31.5% failed a
-live probe (37% on an earlier sample). Most of that (24%) is tables a read-only role
-cannot query, which says nothing about the join; 6.5% were bad joins, each a target
-key the table does not have (`id` on a list, unit or address table) or a sublist name
-used as a column. The build repairs the `key`, `internalid` and `nkey` cases; every
-repaired join in the sample whose tables were queryable passed. `nsq schema verify` shows these numbers for your own account.
-
-### Adding another account
-
-Each export only lists what is enabled in that account, so merging several widens the
-map. Three ways to produce one:
-
-1. **SuiteQL Query Tool** (if installed in the account): Build Schema, Export JSON.
-2. **No install, browser:** `nsq schema catalog-script | pbcopy`, open any page of the
-   account while logged in, paste into the browser console, wait for the download.
-   Read-only GETs to the Records Catalog, throttled, progress in the console; stop
-   early with `window.__nsqStop = true`. It keeps every join key pair, with its raw
-   label. (Its parser and walk are unit tested against a fake endpoint.)
-3. **No install, API only:** `nsq schema pull --account <alias>` lists the REST
-   metadata catalog's records and runs `SELECT * FROM <table> WHERE ROWNUM <= 1`
-   presence probes over known feature tables. It records which tables and features
-   exist (`seenIn`), not columns or joins: the metadata catalog does not say what a
-   reference field points to.
-
-Save exports as `~/.netsuite-query/schema/<alias>-records-catalog.json`, then:
-
-```bash
-nsq schema build          # merge exports + pulls + facts + probes
-```
-
-`build` needs `~/.netsuite-query/schema/build.json`:
-`{"clientPrefixes": ["acme"], "labelRenames": {"Site": "Location"}}`.
-Custom records, lists, segments, `cust*` fields and anything containing a client
-prefix go to the local custom layer; account-level label renames are mapped back.
-The build refuses to write the public files if any client prefix, alias or account
-id appears in them.
-
-Maintainers: `nsq schema verify --account <sandbox> [--sample 200]` probes every facts
-join, the facts tables' columns, the chains, and a deterministic sample of catalog
-joins, then rebuilds.
-
-Credit: the Records Catalog approach and export format come from Tim Dietrich's
-[SuiteQL Query Tool](https://timdietrich.me/) (MIT license). nsq reads its exports
-as-is; the browser snippet reimplements the same walk.
+How it is built, how far to trust it and how to add an account:
+[docs/schema-graph.md](docs/schema-graph.md).
 
 ## Setup (once per NetSuite account, admin required)
 
@@ -197,23 +129,15 @@ at most two years.
 
 ## Testing
 
-Two kinds of tests:
-
 - **Unit tests** for the CLI and the schema map: `node --test test/*.test.js`.
-- **Agent benchmarks** in [`benchmarks/`](benchmarks/README.md): 53 agent runs in a
-  NetSuite sandbox, comparing a strong and a small model, with and without the skill
-  and the schema map, graded by an independent agent against reference answers.
-  Headline results: a strong model got every hard query right with or without the
-  skill; a small model got none fully right and reported three wrong results as
-  verified either way; the schema map saves tokens only on unfamiliar joins and for
-  smaller models. The skill's model guidance, traps and "references first" rule
-  come from those results.
+- **Agent benchmarks**: [`benchmarks/`](benchmarks/README.md), summarized in
+  [What testing showed](#what-testing-showed).
 
 ## Layout
 
 ```
-SKILL.md                    the agent skill
-references/                 loaded by the agent on demand
+SKILL.md                    instructions for the AI
+references/                 loaded by the AI on demand
   dialect.md                SuiteQL syntax that works and fails over REST
   errors.md                 NetSuite error text to cause and fix
   schema.md                 tables, join keys, filters, signs, currency, units
@@ -221,6 +145,7 @@ references/                 loaded by the agent on demand
   script-vs-rest.md         where N/query in SuiteScript differs
   auth-and-roles.md         scopes, the read-only role, writes are not nsq
 schema/                     the join map (graph, suiteapp, facts, probes)
+docs/schema-graph.md        how the join map is built and verified
 bin/ lib/                   the CLI (lib/schema: build, path search, verify, pull)
 test/                       node --test test/*.test.js
 benchmarks/                 how the skill was tested and what changed because of it
